@@ -197,6 +197,38 @@ int problema11(){
     return 0;
 }
 
+bool problema13_aux(int n){
+    if (n <= 1) {
+        return false;
+    }
+    if (n <= 3) {
+        return true;
+    }
+    if (n % 2 == 0 || n % 3 == 0) {
+        return false;
+    }
+    for (int i = 5; i * i <= n; i = i + 6) {
+        if (n % i == 0 || n % (i + 2) == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int problema13(){
+    int n;
+    cout << "Ingrese un entero positivo: ";
+    cin >> n;
+
+    int suma = 0;
+    for (int i = 2; i <= n; ++i) {
+        if (problema13_aux(i)) {
+            suma += i; //
+        }
+    }
+    cout << "La suma de todos los numeros primos entre 1 y " << n << " es: " << suma << endl;
+    return 0;
+}
 
 int main(){
     int problema;
@@ -225,6 +257,9 @@ int main(){
             break;
         case 11:
             problema11();
+            break;
+        case 13:
+            problema13();
             break;
         default:
             break;

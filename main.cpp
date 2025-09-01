@@ -174,8 +174,31 @@ int problema9(){
     return 0;
 }
 
-int main()
-{
+int problema11(){
+    int n;
+    cout << "Ingresa un numero entero positivo: ";
+    cin >> n;
+    if (n <= 0){
+        cout << "El numero debe ser positivo" << endl;
+        return 1;
+    }
+    int resultado = 1;
+    for (int i = 2; i <= n ; i++){
+        int a = resultado, b = i;
+        while (b != 0){
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        int mcd = a;
+        resultado = (resultado / mcd) * i;
+    }
+    cout << "El minimo comun multiplo de los numeros del 1 al " << n << " es: " << resultado << endl;
+    return 0;
+}
+
+
+int main(){
     int problema;
     cout << "Ingresa numero del problema" << endl;
     cin >> problema;
@@ -199,6 +222,9 @@ int main()
             break;
         case 9:
             problema9();
+            break;
+        case 11:
+            problema11();
             break;
         default:
             break;

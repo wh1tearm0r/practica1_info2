@@ -174,6 +174,7 @@ int problema9(){
     return 0;
 }
 
+//Problema 11
 int problema11(){
     int n;
     cout << "Ingresa un numero entero positivo: ";
@@ -197,6 +198,7 @@ int problema11(){
     return 0;
 }
 
+//Problema 13 (funcion auxiliar para mirar si un numero es primo)
 bool problema13_aux(int n){
     if (n <= 1) {
         return false;
@@ -215,6 +217,7 @@ bool problema13_aux(int n){
     return true;
 }
 
+//Problema 13 (principal)
 int problema13(){
     int n;
     cout << "Ingrese un entero positivo: ";
@@ -230,6 +233,165 @@ int problema13(){
     return 0;
 }
 
+//Problema 15
+int problema15(){
+    int n;
+
+    cout << "Ingrese el tamaño de la espiral (debe ser impar): ";
+    cin >> n;
+
+    // Validar que sea impar
+    if (n % 2 == 0) {
+        cout << "Error: El tamaño debe ser impar. Usando " << n + 1 << endl;
+        n++;
+    }
+
+    cout << "\nGenerando espiral de " << n << "x" << n << ":" << endl;
+
+    // Para mostrar la espiral, calculamos cada posición
+    for (int fila = 0; fila < n; fila++) {
+        for (int col = 0; col < n; col++) {
+
+            // Variables para simular el recorrido de la espiral
+            int f = n / 2;  // posición inicial fila (centro)
+            int c = n / 2;  // posición inicial columna (centro)
+            int num = 1;    // número actual
+            int pasos = 1;  // pasos que debemos dar en la dirección actual
+            int dir = 0;    // dirección: 0=izq, 1=abajo, 2=der, 3=arriba
+            int cambios = 0; // contador de cambios de dirección
+            int dados = 0;   // pasos dados en la dirección actual
+
+            // Si estamos en el centro, es el número 1
+            if (fila == f && col == c) {
+                cout << 1 << " ";
+                continue;
+            }
+
+            // Simular el recorrido hasta llegar a la posición buscada
+            bool encontrado = false;
+            while (num < n * n && !encontrado) {
+
+                // Mover según la dirección actual
+                if (dir == 0) {
+                    c = c - 1;      // izquierda: columna disminuye
+                } else if (dir == 1) {
+                    f = f + 1;      // abajo: fila aumenta
+                } else if (dir == 2) {
+                    c = c + 1;      // derecha: columna aumenta
+                } else if (dir == 3) {
+                    f = f - 1;      // arriba: fila disminuye
+                }
+
+                num = num + 1;
+                dados = dados + 1;
+
+                // Verificar si llegamos a la posición buscada
+                if (f == fila && c == col) {
+                    cout << num << " ";
+                    encontrado = true;
+                    break;
+                }
+
+                // Cambiar dirección si completamos los pasos
+                if (dados == pasos) {
+                    if (dir == 0) {
+                        dir = 1;  // de izquierda a abajo
+                    } else if (dir == 1) {
+                        dir = 2;  // de abajo a derecha
+                    } else if (dir == 2) {
+                        dir = 3;  // de derecha a arriba
+                    } else if (dir == 3) {
+                        dir = 0;  // de arriba a izquierda
+                    }
+
+                    cambios = cambios + 1;
+                    dados = 0;
+
+                    // Incrementar pasos cada 2 cambios de dirección
+                    if (cambios % 2 == 0) {
+                        pasos = pasos + 1;
+                    }
+                }
+            }
+
+            // Si no encontramos la posición (no debería pasar)
+            if (!encontrado) {
+                cout << 0 << " ";
+            }
+        }
+        cout << endl;  // Nueva línea al final de cada fila
+    }
+
+    // Calcular suma de diagonal principal
+    int suma_diagonal = 0;
+
+    for (int i = 0; i < n; i++) {
+        // Para cada posición diagonal, calcular su valor
+        int fila_diag = i;
+        int col_diag = i;
+
+        // Caso especial: centro
+        if (fila_diag == n/2 && col_diag == n/2) {
+            suma_diagonal = suma_diagonal + 1;
+            continue;
+        }
+
+        // Simular recorrido para encontrar el valor en la diagonal
+        int f = n / 2;
+        int c = n / 2;
+        int num = 1;
+        int pasos = 1;
+        int dir = 0;
+        int cambios = 0;
+        int dados = 0;
+
+        while (num < n * n) {
+            if (dir == 0) {
+                c = c - 1;
+            } else if (dir == 1) {
+                f = f + 1;
+            } else if (dir == 2) {
+                c = c + 1;
+            } else if (dir == 3) {
+                f = f - 1;
+            }
+
+            num = num + 1;
+            dados = dados + 1;
+
+            if (f == fila_diag && c == col_diag) {
+                suma_diagonal = suma_diagonal + num;
+                break;
+            }
+
+            if (dados == pasos) {
+                if (dir == 0) {
+                    dir = 1;
+                } else if (dir == 1) {
+                    dir = 2;
+                } else if (dir == 2) {
+                    dir = 3;
+                } else if (dir == 3) {
+                    dir = 0;
+                }
+
+                cambios = cambios + 1;
+                dados = 0;
+
+                if (cambios % 2 == 0) {
+                    pasos = pasos + 1;
+                }
+            }
+        }
+    }
+
+    cout << "\nInformacion:" << endl;
+    cout << "- Suma de la diagonal: " << suma_diagonal << endl;
+    cout << "- Numero en el centro: 1" << endl;
+    cout << "- Total de numeros: " << n * n << endl;
+
+    return 0;
+}
 int main(){
     int problema;
     cout << "Ingresa numero del problema" << endl;
@@ -260,6 +422,9 @@ int main(){
             break;
         case 13:
             problema13();
+            break;
+        case 15:
+            problema15();
             break;
         default:
             break;

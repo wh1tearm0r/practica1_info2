@@ -248,11 +248,9 @@ int problema15(){
 
     cout << "\nGenerando espiral de " << n << "x" << n << ":" << endl;
 
-    // Para mostrar la espiral, calculamos cada posición
     for (int fila = 0; fila < n; fila++) {
         for (int col = 0; col < n; col++) {
 
-            // Variables para simular el recorrido de la espiral
             int f = n / 2;  // posición inicial fila (centro)
             int c = n / 2;  // posición inicial columna (centro)
             int num = 1;    // número actual
@@ -261,13 +259,11 @@ int problema15(){
             int cambios = 0; // contador de cambios de dirección
             int dados = 0;   // pasos dados en la dirección actual
 
-            // Si estamos en el centro, es el número 1
             if (fila == f && col == c) {
                 cout << 1 << " ";
                 continue;
             }
 
-            // Simular el recorrido hasta llegar a la posición buscada
             bool encontrado = false;
             while (num < n * n && !encontrado) {
 
@@ -285,14 +281,12 @@ int problema15(){
                 num = num + 1;
                 dados = dados + 1;
 
-                // Verificar si llegamos a la posición buscada
                 if (f == fila && c == col) {
                     cout << num << " ";
                     encontrado = true;
                     break;
                 }
 
-                // Cambiar dirección si completamos los pasos
                 if (dados == pasos) {
                     if (dir == 0) {
                         dir = 1;  // de izquierda a abajo
@@ -314,12 +308,11 @@ int problema15(){
                 }
             }
 
-            // Si no encontramos la posición (no debería pasar)
             if (!encontrado) {
                 cout << 0 << " ";
             }
         }
-        cout << endl;  // Nueva línea al final de cada fila
+        cout << endl;
     }
 
     // Calcular suma de diagonal principal
@@ -392,6 +385,66 @@ int problema15(){
 
     return 0;
 }
+
+//Problema 17 (auxiliar)
+int problema17_auxiliar(long long n) {
+    int count = 0;
+    for (long long i = 1; i * i <= n; i++) {
+        if (n % i == 0) {
+            if (i * i == n) {
+                count++; // Divisor perfecto (el numero raíz cuadrada)
+            } else {
+                count += 2; // Dos divisores: i y n/i
+            }
+        }
+    }
+    return count;
+}
+
+//Problema 17
+int problema17() {
+    int k;
+    cout << "Ingrese el numero minimo de divisores: ";
+    cin >> k;
+
+    if (k <= 0) {
+        cout << "El numero debe ser positivo" << endl;
+        return 1;
+    }
+
+    long long n = 1;
+    long long triangular;
+    int divisores;
+
+    cout << "Buscando el primer numero triangular con mas de " << k << " divisores..." << endl;
+    cout << "\nSecuencia de numeros triangulares:" << endl;
+
+    while (true) {
+        triangular = (n * (n + 1)) / 2; // Calcular el n-ésimo número triangular: T(n) = n*(n+1)/2
+
+        divisores = problema17_auxiliar(triangular); // Contar divisores
+
+        // Mostrar información del número triangular actual
+        cout << "T(" << n << ") = " << triangular << " tiene " << divisores << " divisores" << endl;
+
+        // Verificar si cumple la condición
+        if (divisores > k) {
+            cout << "\nEl numero es: " << triangular << " que tiene " << divisores << " divisores." << endl;
+            return 0;
+        }
+
+        n++;
+
+        // Prevenir bucles infinitos para números muy grandes
+        if (n > 100000) {
+            cout << "Busqueda limitada a los primeros 100000 numeros triangulares" << endl;
+            break;
+        }
+    }
+
+    return 0;
+}
+
 int main(){
     int problema;
     cout << "Ingresa numero del problema" << endl;
@@ -425,6 +478,9 @@ int main(){
             break;
         case 15:
             problema15();
+            break;
+        case 17:
+            problema17();
             break;
         default:
             break;
